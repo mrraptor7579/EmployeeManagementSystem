@@ -1,0 +1,5 @@
+language: "java"
+name: "ems"
+appmap_dir: "tmp/appmap"
+packages:
+- path: "com.project.ems"

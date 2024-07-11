@@ -1,0 +1,169 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{employeeLayout}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title layout:title-pattern=" $LAYOUT_TITLE $CONTENT_TITLE">Employee Leave</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+    <!-- Custom styles -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- MDB -->
+
+    <style>
+
+
+        .profileSection{
+            display: block;
+
+        }
+        .emNavigation{
+            padding: 5px;
+            height: 200px;
+            width: 500px;
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .btn1{
+            height: 80px;
+            width: 150px;
+            border: none;
+            color:white;
+            border-radius: 10px;
+            background: rgb(55, 45, 232);
+
+        }
+        .hover-window {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<section layout:fragment="body">
+<div class="container col-md-6">
+    <div class="card">
+        <div class="card-body">
+    <form id="leaveform" th:action="@{/ems/employee/applyLeave/{empId}(empId=${leave1.empId})}" method="post" th:object="${leave1}">
+        <h2>Leave Request Form</h2>
+        <label for="empId">Employee ID</label>
+
+        <input
+                type="text"
+                class="form-control"
+                readonly
+                name="empId"
+                id="empId"
+                th:value="${leave1.empId}"
+                th:field="*{empId}">
+
+        <label for="leave_type">Leave Type</label>
+        <select
+                class="form-control"
+                name="leaveType"
+                id="leave_type"
+                th:field="*{leaveType}">
+            <option value="vacation">Vacation</option>
+            <option value="sick">Sick Leave</option>
+            <option value="maternity">Maternity/Paternity Leave</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <label for="start_date">Start Date</label>
+        <input
+                class="form-control"
+                type="date"
+                th:field="*{startDate}"
+                placeholder="Start Date"
+                id="start_date"
+                name="startDate">
+
+
+        <label for="end_date">End Date</label>
+        <input
+                class="form-control"
+                type="date"
+                th:field="*{endDate}"
+                id="end_date"
+                placeholder="End Date"
+                name="endDate">
+        <lable for="reason_area"></lable>
+        <textarea
+                id="reason_area"
+                class="form-control"
+                th:field="*{reason}"
+                name="reason"
+                placeholder="Enter Your Reason"
+        ></textarea>
+        <input id="submit" type="submit" class="btn btn-outline-primary" value="Submit">
+    </form>
+</div>
+    </div>
+
+</div>
+    <div class="container">
+    <caption>
+        <h1>
+
+
+            Leave History
+
+        </h1>
+    </caption>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Leave ID</th>
+            <th>Employ ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Type</th>
+            <th>Reason</th>
+            <th>Leave Days</th>
+            <th>Status</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <!--   for (Todo todo: todos) {  -->
+
+
+
+        <tr th:each="leave:${leave}">
+            <td th:text="${leave.leaveId}"></td>
+            <td th:text="${leave.empId}"></td>
+            <td th:text="${leave.startDate}"></td>
+            <td th:text="${leave.endDate}"></td>
+            <td th:text="${leave.leaveType}"></td>
+            <td th:text="${leave.reason}"></td>
+            <td th:text="${leave.leaveDays}"></td>
+            <td th:text="${leave.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</section>
+</html>

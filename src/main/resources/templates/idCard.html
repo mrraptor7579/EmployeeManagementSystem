@@ -1,0 +1,70 @@
+<html
+        xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/idCard.css}">
+    <title>ID Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+</head>
+<body>
+        <div class="container">
+            <div class="padding">
+                <div class="font">
+                    <div class="top">
+                        <img th:src="'data:image/jpeg;base64,'+${employee.empPic}">
+                    </div>
+                    <div class="bottom">
+                        <p th:text="${employee.firstName}+' '+${employee.lastName}"></p>
+                        <p th:text="${employee.empId}" class="desi"></p>
+                        <p th:text="${employee.designation}"class="desi"></p>
+                        <p class="no" th:text="${employee.contact}"></p>
+                        <div class="barcode">
+                            <img th:src="'data:image/jpeg;base64,'+${employee.empDetailQr}">
+                        </div>
+                        <br>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <h1 class="Details">information</h1>
+                <hr class="hr">
+                <div class="details-info">
+                    <p><b>Email : </b></p>
+                    <p>ems.info@ems.com</p>
+                    <p><b>Mobile No: </b></p>
+                    <p>7535927173</p>
+                    <p><b>Office Address:</b></p>
+                    <p>Khandari, RBS turn corner,Agra-282005</p>
+                    </div>
+
+                    <hr>
+                </div>
+            </div>
+        <button id="download-pdf">Download PDF</button>
+<script>
+
+
+    window.onload =function() {
+        const myDiv = document.getElementById('container');
+        const divContent = myDiv.innerHTML;
+        const doc = new jsPDF();
+
+        // Set font size and style
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "normal");
+
+        // Add the div content as text to the PDF
+        const lines = doc.splitTextToSize(divContent, doc.internal.pageSize.getWidth() - 20);
+        doc.text(10, 10, lines);
+
+        // Save the PDF
+        doc.save('div-content.pdf');
+    });
+</script>
+
+</body>
+</html>

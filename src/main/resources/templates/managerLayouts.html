@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thmyeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org"
+>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>CTC||</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+  <link rel="icon" type="image/png" href="https://www.logomaker.com/api/main/images/1j+ojVNGOMkX9W2+J1iwiGOui...GCpB5HnAiIiWcqL2VE9AhtlSEohPZp...A==">
+  <!-- Custom styles -->
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+    crossorigin="anonymous"></script>
+  <style>
+    .notification-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-left: 1px solid #ddd;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .notification-panel.active {
+      display: flex;
+    }
+
+    .notification-header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      margin-top: 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification-header .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .notification-body {
+      padding: 10px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .notification {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification .message {
+      margin: 0;
+    }
+
+    .notification .dismiss-btn {
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .notification .dismiss-btn:hover {
+      background-color: #ff1a1a;
+    }
+
+    .open-notifications-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+  </style>
+</head>
+
+
+  <!--Main Navigation-->
+  <header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+      <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+          <a th:href="@{/ems/dashboard/manager/{empId}(empId=${empId})}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init aria-current="true">
+            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+          </a>
+          <a th:href="@{/ems/manager/leaveManagement/{empId}(empId=${empId})}" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
+            <i class="fas fa-chart-area fa-fw me-3"></i><span>Leave Management </span>
+          </a>
+          <a th:href="@{/ems/manager/applyLeave/{empId}(empId=${empId})}" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
+            <i class="fas fa-chart-area fa-fw me-3"></i><span>Apply Leave</span>
+          </a>
+          <a th:href="@{/ems/manager/checkAttendance/{empId}(empId=${empId})}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init><i
+                  class="fas fa-lock fa-fw me-2"></i><span>Check Attendance</span></a>
+          <a th:href="@{/ems/manager/manageAttendance}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init><i
+              class="fas fa-lock fa-fw me-2"></i><span>Manage Attendance</span></a>
+
+          <a href="#" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init><i
+              class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a>
+          <a th:href="@{/ems/manager/search/{empId}(empId=${empId})}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init><i
+              class="fas fa-users fa-fw me-3"></i><span>Team</span></a>
+
+        </div>
+      </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+        <!-- Toggle button -->
+        <button class="navbar-toggler" type="button" data-mdb-collapse-init data-mdb-target="#sidebarMenu"
+          aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <img src="https://www.logomaker.com/api/main/images/1j+ojVNGOMkX9W2+J1iwiGOui...GCpB5HnAiIiWcqL2VE9AhtlSEohPVj9g==" height="50" width="90" alt="" loading="lazy" />
+        </a>
+        <!-- Search form -->
+
+
+        <!-- Right links -->
+        <ul class="navbar-nav ms-auto d-flex flex-row">
+          <!-- Notification dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
+              role="button" data-mdb-dropdown-init aria-expanded="false">
+              <i class="fas fa-bell"></i>
+              <span class="badge rounded-pill badge-notification bg-danger">1</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" th:href="@{/ems/employee/getNews}">Some news</a></li>
+
+              </li>
+            </ul>
+          </li>
+
+          <!-- Icon -->
+          <li class="nav-item">
+            <a class="nav-link me-3 me-lg-0" href="#">
+              <i class="fas fa-fill-drip"></i>
+            </a>
+          </li>
+          <!-- Icon -->
+          <li class="nav-item me-3 me-lg-0">
+            <a class="nav-link" href="#">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+
+          <!-- Icon dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button"
+              data-mdb-dropdown-init aria-expanded="false">
+              <i class="united kingdom flag m-0"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="#"><i class="united kingdom flag"></i>English
+                  <i class="fa fa-check text-success ms-2"></i></a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="poland flag"></i>Polski</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="china flag"></i>中文</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="japan flag"></i>日本語</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="germany flag"></i>Deutsch</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="france flag"></i>Français</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="spain flag"></i>Español</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="russia flag"></i>Русский</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="portugal flag"></i>Português</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Avatar -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
+              id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init aria-expanded="false">
+              <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
+                alt="" loading="lazy" />
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">My profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" th:href="@{/ems/logout}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+  </header>
+<main style="margin-top: 58px">
+  <div class="container pt-4">
+    <!-- Section: Main chart -->
+    <section class="mb-4">
+      <div class="card">
+        <div class="notification-panel" id="notificationPanel">
+
+          <div class="notification-header">
+            <span>Notifications</span>
+            <button class="close-btn" onclick="closePanel()">✖</button>
+          </div>
+          <div class="notification-body">
+            <table class="table table-bordered">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <th>Notification ID</th>
+
+                  <th>Notification</th>
+
+                  <th>Status</th>
+                  <th>Created At</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notification:${notification}">
+                  <td th:text="${notification.notificationId}"></td>
+                  <td th:text="${notification.notificationText}"></td>
+                  <td th:text="${notification.isRead}"></td>
+                  <td th:text="${notification.createdAt}"></td>
+                </tr>
+
+                </tbody>
+              </table>
+
+              <!-- Add more notifications as needed -->
+          </div>
+        </div>
+
+        <button class="open-notifications-btn" onclick="openPanel()">Open Notifications</button>
+
+        <script>
+          function closePanel() {
+            document.getElementById('notificationPanel').classList.remove('active');
+          }
+
+          function openPanel() {
+            document.getElementById('notificationPanel').classList.add('active');
+          }
+
+
+        </script>
+    <body layout:fragment="body"></body>
+      </div>
+    </section>
+  </div>
+  </main>
+
+  <script type="text/javascript" src="/js/mdb.umd.min.js"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript" src="/js/admin.js"></script>
+
+</html>

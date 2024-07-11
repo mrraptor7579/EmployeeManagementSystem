@@ -1,0 +1,176 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{adminLayouts}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title layout:title-pattern=" $LAYOUT_TITLE $CONTENT_TITLE">Employee Registration</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+    <!-- Custom styles -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- MDB -->
+
+    <style>
+
+        .profilePic img{
+            width:250px;
+            height:300px;
+        }
+        .container-ud{
+            box-shadow:0px 0px 20px rgba(156,150,150,0.9);
+            border-radius:10px;
+        }
+        .hover-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Styles for the hover content */
+        .hover-content {
+            display: none;
+            width:280px;
+            height:380px;
+            scroll:auto;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow:0px 0px 20px rgba(156,150,150,0.9);
+            padding: 10px;
+            z-index: 1;
+        }
+
+        /* Styles for the hover trigger */
+        .hover-trigger {
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<section layout:fragment="body">
+    <div class="container col-md-5">
+        <div class="card">
+            <div class="card-body">
+                    <form th:action="@{/ems/addEmployee/save/{roleId}(roleId=${empId})}" method="post" th:object="${employee}" >
+                        <div class="container mb-5">
+                <caption>
+                    <h1>
+
+
+                            Add New Employ
+
+                    </h1>
+                </caption>
+
+
+
+
+                <fieldset class="form-group">
+                    <label>Employ First Name</label>
+                    <input
+                        type="text"
+                        value="" class="form-control"
+                        th:field="*{firstName}"
+                        name="name"
+                        required="required">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label>Employ Lastname</label>
+                    <input
+                            type="text"
+                            value=""
+                            class="form-control"
+                            th:field="*{lastName}"
+                            name="lastname"
+                            required="required">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label>Employ Contact</label>
+                    <input
+                            type="text"
+                           value=""
+                            class="form-control"
+                            th:field="*{contact}"
+                            name="contact"
+                            required="required">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input
+                            type="date"
+                            name="dob"
+                            th:field="*{dob}"
+                            class="form-control"
+                            id="dob"
+                            placeholder="Date of Birth">
+                </fieldset >
+                            <fieldset class="form-group">
+                                <label for="dob">UserRole</label>
+                                <select class="form-control" th:field="*{userRole}">
+
+                                    <option th:value="employee" th:text="Employee"></option>
+                                    <option th:value="teamLeader" th:text="TeamLeader"></option>
+                                    <option th:value="manager" th:text="Manager"></option>
+                                </select>
+                            </fieldset >
+
+                <fieldset class="form-group">
+                    <label>Employ Email</label>
+                    <input
+                            type="text"
+                           value=""
+                            th:field="*{email}"
+                           class="form-control"
+                           name="email">
+                </fieldset>
+
+                            <fieldset class="form-group">
+                                <label>Manager</label>
+                                <input
+                                        type="text"
+                                        th:field="*{reportingManager}"
+                                        value=""
+                                        class="form-control"
+                                        name="reportingManager">
+                            </fieldset>
+                <fieldset class="form-group">
+                    <label>Employ Department</label>
+                    <select
+                            class="form-control"
+                            th:field="*{department}"
+                            name="department">
+                        <option th:value="IT" th:text="IT"></option>
+                        <option th:value="HR" th:text="HR"></option>
+                        <option th:value="Finance" th:text="Finance"></option>
+                        <option th:value="Sales" th:text="Sales"></option>
+                    </select>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label>Employ Designation</label>
+                    <input
+                            type="text"
+                            th:field="*{designation}"
+                            value=""
+                            class="form-control"
+                            name="designation">
+                </fieldset>
+
+
+                        </div>
+                <button type="submit" class="btn btn-success">Add Employee</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+</html>

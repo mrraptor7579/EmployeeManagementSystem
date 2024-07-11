@@ -1,0 +1,145 @@
+
+<html
+        xmlns:th="http://thymeleaf.org"
+>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="icon" type="image/png" href="https://logos-world.net/wp-content/uploads/2022/07/EMS-Logo.png">
+
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>CTC||Login</title>
+    <style>
+        body{
+            background-image: url("https://static.vecteezy.com/system/resources/previews/010/705/525/non_2x/colorful-template-banner-and-background-with-blue-and-white-color-gradient-color-vector.jpg");
+            background-size: cover;
+            margin:0;
+            overflow: hidden;
+        }
+        .form-control{
+            color:black;
+            background-color:white ;
+        }
+        .sty{
+            font-size: 25px;
+            color:black;
+
+        }
+        .card{
+            padding: 25px;
+            box-shadow:0px 0px 20px rgba(156,150,150,0.9);
+            border-radius: 25px;
+        }
+        .container{
+
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 20px;
+            margin-left: 25px;
+        }
+        .form{
+            color:black;
+        }
+        .retro {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            margin: 0 auto;
+            border: none;
+            font: normal 70px/normal "Anton", Helvetica, sans-serif;
+            color: rgba(109,144,196);
+            text-align: center;
+            text-transform: uppercase;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+            letter-spacing: 10px;
+            text-shadow: 4px 4px 0 rgb(238,238,238) , 6px 6px 0 rgba(109,144,196,1) ;
+        }
+        .hrm{
+            font-size: 30px;
+            color: rgba(109,144,196);
+        }
+        .company-logo{
+       position: absolute;
+            z-index: -1;
+            height: 145px;
+            width: 254px;
+            transform: translateX(10px);
+
+        }
+    </style>
+</head>
+<body>
+<div class="company-logo">
+    <img src="https://www.logomaker.com/api/main/images/1j+ojVNGOMkX9W2+J1iwiGOui...GCpB5HnAiIiWcqL2VE9AhtlSEohPZp...A==">
+</div>
+<div class="content">
+
+    <div class="retro"><b style="font-size:120px">C</b>rust <b style="font-size:120px">T</b>o <b style="font-size:120px">C</b>ore <br> Technologies </div>
+
+
+    <div class="container">
+        <center> <b class="hrm">HRMS</b></center>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 card">
+                        <div class="mb-4">
+                            <h3>Sign In || Admin</h3>
+                            <p style="color:#5b5a5a; " class="mb-4">Keep calm and lead on," and "Innovation through collaboration.</p>
+                        </div>
+                        <form th:action="@{/ems/login/admin}" method="post">
+                            <div class="form-group">
+                                <label class="sty" style="color:#5b5a5a; " for="username">Username</label>
+                                <input type="text" class="form-control form" style="color:#0c1728;border-bottom: 2px solid gray;padding: 2px;" th:name="empId" id="username">
+                            </div>
+                            <div class="form-group  mb-3">
+                                <label class="sty" style="color:#5b5a5a;" for="password">Password</label>
+                                <input type="password" style="color:#0c1728;border-bottom: 2px solid gray;" class="form-control form" th:name="password" id="password">
+                                <input type="hidden" style="color:#0c1728;border-bottom: 2px solid gray;" class="form-control form" th:name="userRole" id="userRole" th:value="admin">
+
+                            </div>
+                            <div th:if="${param.fail}" class="alert alert-danger">
+                                User Not Found.<br>Please Check your Username and Password.
+
+                            </div>
+                            <div class="d-flex mb-5 align-items-center">
+
+                                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
+                                <span class="ml-auto"><a th:href="@{/ems/login}" class="forgot-pass">Login As Employee</a></span>
+                            </div>
+
+                            <input type="submit" value="Log In" class="btn btn-block btn-primary">
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

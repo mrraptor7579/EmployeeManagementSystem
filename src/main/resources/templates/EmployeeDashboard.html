@@ -1,0 +1,188 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{employeeLayout}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title layout:title-pattern=" $LAYOUT_TITLE $CONTENT_TITLE">Employee</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+    <!-- Custom styles -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- MDB -->
+
+    <style>
+
+
+        .profileSection{
+            display: block;
+
+        }
+        .emNavigation{
+            padding: 5px;
+            height: 200px;
+            width: 500px;
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .btn1{
+            height: 80px;
+            width: 150px;
+            border: none;
+            font-size: 30px;
+            color:white;
+            border-radius: 10px;
+            background: rgb(39, 68, 141);
+
+        }
+        .hover-window {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+.reportingInfo{
+    display: block;
+    position: absolute;
+    transform: translate(580px,-680px);
+}
+.card{
+    padding: 10px;
+}
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<section layout:fragment="body">
+    <div class="container col-md-5">
+        <img class="rounded-circle" alt="avatar1"  height="300" width="300" th:src="'data:image/jpeg;base64,'+${employee.empPic}"/>
+        <h1><strong th:text="${employee.firstName}+' '+${employee.lastName}"></strong></h1>
+        <div class="card profileSection mr-5 ml-0 pb-5>">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Employ ID</th>
+                <td th:text="${employee.empId}"></td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td th:text="${employee.firstName}"></td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td th:text="${employee.lastName}"></td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td th:text="${employee.contact}"></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${employee.email}"></td>
+            </tr>
+            <tr>
+
+                <th>Department</th>
+                <td th:text="${employee.department}"></td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td th:text="${employee.designation}"></td>
+
+            </tr>
+            </thead>
+            <tbody>
+
+
+
+
+
+            </tbody>
+        </table>
+            <div class="container text-left">
+                <tr>
+                    <td><button  onclick="showHoverWindow()" class="btn  btn-secondary">Update Password</button></td>
+                </tr>
+            </div>
+            <div th:if="${param.success}" class="alert alert-success">
+                Your Password is successfully updated
+            </div>
+            <div th:if="${param.fail}" class="alert alert-success">
+                Something went Wrong
+            </div>
+            <div class="hover-window" id="hoverWindow">
+                <form method="post" class="form-control" th:action="@{/ems/employee/updatePassword/{empId}(empId=${employee.empId})}">
+                   <label for="pass">Password</label>
+                    <input type="text" oninput="validatePassword()" class="form-control" name="pass" id="pass">
+                    <label for="confirmPass">Confirm Password</label>
+                    <input type="text" oninput="validatePassword()" class="form-control" name="confirmPass" id="confirmPass">
+                    <span id="message"></span><br><br>
+                    <input type="submit" class="btn btn-success" value="Update">
+                </form>
+
+            </div>
+        </div>
+    <div class="reportingInfo">
+        <div class="card">
+            <h1>Reporting Role:</h1>
+            <h3 th:text="${employee.reportingRole}"></h3>
+            <h1>User Role:</h1>
+            <h3 th:text="${employee.userRole}"></h3>
+        </div>
+        <div class="card">
+            <h3>Attendance</h3>
+            <a th:href="@{/ems/employee/checkAttendance/{empId}(empId=${empId})}"><button class="btn btn1 " th:text="${attendance}+'%'"></button></a>
+
+        </div>
+
+    </div>
+        <script>
+            function showHoverWindow() {
+                var hoverWindow = document.getElementById("hoverWindow");
+                if (hoverWindow.style.display === "none") {
+                    hoverWindow.style.display = "block";
+                } else {
+                    hoverWindow.style.display = "none";
+                }
+            }
+        </script>
+
+        <script>
+            function validatePassword() {
+                var password = document.getElementById("pass").value;
+                var confirm_password = document.getElementById("confirmPass").value;
+
+                var message = document.getElementById('message');
+
+                if (password === confirm_password) {
+                    message.innerHTML = "Passwords Match!";
+                    message.style.color = "green";
+                } else {
+                    message.innerHTML = "Passwords Do Not Match!";
+                    message.style.color = "red";
+                }
+            }
+        </script>
+    </div>
+    <div class="emNavigation">
+
+    </div>
+
+</section>
+</html>

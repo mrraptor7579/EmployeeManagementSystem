@@ -48,7 +48,7 @@ public class NotificationService {
     public Boolean sendNotification(Employee employee, Leave leave,String text) {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("akashbaghel650@gmail.com");
+        simpleMailMessage.setFrom("YourEmail@gmail.com");
         simpleMailMessage.setSubject("CTC Notification");
 
         simpleMailMessage.setText(text);

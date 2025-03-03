@@ -36,7 +36,7 @@ public class NotificationService {
                 "Start Date: "+leave.getStartDate() +"\n" +
                 "End Date: "+leave.getEndDate()+"\n" +
                 "Number of Days: "+leave.getLeaveDays()+"\n" +
-                "If you have any further questions or concerns, please feel free to reach out to [Mr Raptor] at [akashbaghel650@gmail.com].\n" +
+                "If you have any further questions or concerns, please feel free to reach out to [Mr Raptor] at [email@gmail.com].\n" +
                 "\n" +
                 "Thank you.\n" +
                 "\n" +
